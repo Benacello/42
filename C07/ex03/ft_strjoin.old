@@ -1,0 +1,94 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpoussar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/03 18:47:36 by bpoussar          #+#    #+#             */
+/*   Updated: 2022/10/04 16:58:15 by bpoussar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdlib.h>
+#include <stdio.h>
+
+int	size_of(int size, char **strs)
+{
+	int	i;
+	int	str;
+	int	size_of;
+
+	size_of = 0;
+	str = 0;
+	while (str <= (size - 1))
+	{
+		i = 0;
+		while (strs[str][i] != '\0')
+		{
+			i++;
+		}
+		size_of = i + size_of;
+		str++;
+	}
+	return (size_of);
+}
+
+void	copy(int size, char **strs, char *join, char *sep)
+{
+	int	iarg;
+	int	istrs;
+	int	ijoin;
+	int	isep;
+
+	istrs = 0;
+	ijoin = 0;
+	while (istrs <= (size -1))
+	{
+		iarg = 0;
+		while (strs[istrs][iarg] != '\0')
+		{
+			join[ijoin] = strs[istrs][iarg];
+			iarg++;
+			ijoin++;
+		}
+		isep = 0;
+		while ((sep[isep] != '\0') && istrs < (size - 1))
+		{
+			join[ijoin++] = sep[isep];
+			isep++;
+		}
+		istrs++;
+	}
+}
+
+char	*ft_strjoin(int size, char **strs, char *sep)
+{
+	char	*join;
+	int		isep;
+	int		taille;
+
+	isep = 0;
+	while (sep[isep] != '\0')
+		isep++;
+	taille = size_of(size, strs) + (isep * (size - 1));
+	join = malloc(sizeof(char) * (taille + 1));
+	if (!join)
+	{
+		return (NULL);
+	}
+	copy(size, strs, join, sep);
+	return (join);
+}
+/*
+int	main(int argc, char **argv)
+{
+	char	*s;
+	char	sep[]=" -- ";
+
+	if (argc >= 2)
+	{
+		s = ft_strjoin(argc, argv,sep );
+		printf("%s\n", s);
+	}
+}*/
